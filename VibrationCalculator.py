@@ -3,12 +3,37 @@ Project 3 kod dosyasıdır
 numerik yöntemler ile titreşim analizi için yazılmıştır.
 """
 import math
-def step_size(k1,m1,tfin):
+def step_size(k1,m1,k2,m2,tfin):
+    k = 0
+    m = 0
 
-    dt = float(1/(((k1/m1)**0.5)/(2*math.pi))/120)
+    if k2 > k1:
+        k = k2
+    else:
+        k = k1
+    if m2 > m1:
+        m = m2
+    else:
+        m = m1
+
+    dt = float(1/(((k/m)**0.5)/(2*math.pi))/150)
     print(f"dt : {dt}")
     num_of_steps = round((tfin/dt)+1)
     return num_of_steps, dt
+
+def MovingBase(baseMag,baseFreq,dt,num_of_steps,m2):
+    Base = [0]*(num_of_steps+1)
+    BaseSpeed = [0]*(num_of_steps+1)
+    t  = [0]
+    if m2 <= 0:
+        for i in range(0,num_of_steps):
+            Base[i] = baseMag*math.sin(baseFreq*t[i])
+            BaseSpeed[i] = baseMag*baseFreq*math.cos(baseFreq*t[i])
+            t.append(t[i]+dt)   
+    else:
+        print(f"can't have base mass with moving base!!")
+    return Base,BaseSpeed
+
 def forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt):
     F1 = [0] * (num_of_steps+1)
     F2 = [0] * (num_of_steps+1)
@@ -37,7 +62,7 @@ def forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt):
         print("dafuk2")
     return F1,F2
     
-def Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps):
+def Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,Base,BaseSpeed):
     
     t  = [0]
     print(f"number of steps: {num_of_steps}")
@@ -55,8 +80,8 @@ def Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps):
     V1[0] = v1_0
     A1[0] = a1_0
 
-    X2[0] = x2_0
-    V2[0] = v2_0
+    X2 = Base
+    V2 = BaseSpeed
     A2[0] = a2_0
 
     # i = 0
@@ -101,38 +126,39 @@ if __name__ == "__main__":
      
 
     x1_0 = 0.0 #float(input("Enter initial displacement: "))
-    v1_0 = 0.0 #float(input("Enter initial velocity: "))
+    v1_0 = 0.1 #float(input("Enter initial velocity: "))
     a1_0 = 0.0 #float(input("Enter initial acceleration: "))
     x2_0 = 0.0
+    baseMag = 0.05
+    baseFreq = 29.0887
     v2_0 = 0.0
     a2_0 = 0.0
     type1 = 2
     type2 = 2
-    times1 = [0, 1.5]
+    times1 = [0]
     times2 = [0]
-    mag1 = 5.0
+    mag1 = 0.0
     mag2 = 0.0 #float(input("Enter force magnitude: "))
     freq1 = 0.0 #float(input("Enter force frequency: "))
     freq2 = 0.0
-    m1 = 10.0 #float(input("Enter mass: "))
+    m1 = 1200.0 #float(input("Enter mass: "))
     m2 = 0.0
-    c1 = 89.40 #float(input("Enter damper: "))
-    c2 = 0.0
-    k1 = 20000.0 #float(input("Enter spring: "))
-    k2 = 0.0
-    tfin = 3.0 #float(input("Enter final time: "))
+    c1 = 0.0 #float(input("Enter damper: "))
+    c2 = 21908.9023002
+    k1 = 0.0 #float(input("Enter spring: "))
+    k2 = 400000.0
+    tfin = 2.0 #float(input("Enter final time: "))
 
-    num_of_steps,dt = step_size(k1,m1,tfin)
+    num_of_steps,dt = step_size(k1,m1,k2,m2,tfin)
     F1,F2 = forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt)
-    X1,X2,V1,V2,A1,A2,G1,G2,t = Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps)
-    #print(F1)
+    Base,BaseSpeed = MovingBase(baseMag,baseFreq,dt,num_of_steps,m2)
+    X1,X2,V1,V2,A1,A2,G1,G2,t = Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,Base,BaseSpeed)
+    print(BaseSpeed)
 
     
     plt.plot(t,X1)
-    
-    if m2>0:
-        plt.plot(t,X2)
-    else:
-        print("no second Dof")
+    #plt.plot(t,X2)
+    if m2 <=0 :
+        print("no second Dof/moving Base")
     plt.show()
 

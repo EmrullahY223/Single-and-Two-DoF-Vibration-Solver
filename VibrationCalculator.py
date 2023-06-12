@@ -145,42 +145,42 @@ if __name__ == "__main__":
      
 
     x1_0 = 0.0 #float(input("Enter initial displacement: "))
-    v1_0 = 0.1 #float(input("Enter initial velocity: "))
+    v1_0 = 0.0 #float(input("Enter initial velocity: "))
     a1_0 = 0.0 #float(input("Enter initial acceleration: "))
     x2_0 = 0.0
-    movetype = 2
+    movetype = 1
     baseMag = 0.0
     baseFreq = 0.0
-    stepSlope = 0.1
-    stepEnd = 0.05
+    stepSlope = 0.0
+    stepEnd = 0.0
     times = [0]
     v2_0 = 0.0
     a2_0 = 0.0
     type1 = 2
     type2 = 2
-    times1 = [0]
+    times1 = [0,1.5]
     times2 = [0]
-    mag1 = 0.0
+    mag1 = 5.0
     mag2 = 0.0 #float(input("Enter force magnitude: "))
     freq1 = 0.0 #float(input("Enter force frequency: "))
     freq2 = 0.0
-    m1 = 1200.0 #float(input("Enter mass: "))
+    m1 = 10.0 #float(input("Enter mass: "))
     m2 = 0.0
-    c1 = 0.0 #float(input("Enter damper: "))
-    c2 = 21908.9023002
-    k1 = 0.0 #float(input("Enter spring: "))
-    k2 = 400000.0
-    tfin = 2.0 #float(input("Enter final time: "))
+    c1 = 89.0 #float(input("Enter damper: "))
+    c2 = 0.0
+    k1 = 20000.0 #float(input("Enter spring: "))
+    k2 = 0.0
+    tfin = 3.0 #float(input("Enter final time: "))
 
     num_of_steps,dt = step_size(k1,m1,k2,m2,tfin)
     F1,F2 = forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt)
     Base,BaseSpeed = MovingBase(baseMag,baseFreq,dt,num_of_steps,m2,movetype,stepSlope,stepEnd,times)
     X1,X2,V1,V2,A1,A2,G1,G2,t = Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,Base,BaseSpeed)
-    print(Base)
+    #print(F1)
 
     
     plt.plot(t,X1)
-    plt.plot(t,Base)
+    #plt.plot(t,Base)
     if m2 <=0 :
         print("no second Dof/moving Base")
     plt.show()

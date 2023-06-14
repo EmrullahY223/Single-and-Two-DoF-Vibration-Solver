@@ -16,7 +16,7 @@ def step_size(k1,m1,k2,m2,tfin):
     else:
         m = m1
 
-    dt = float(1/(((k/m)**0.5)/(2*math.pi))/200)
+    dt = float(1/(((k/m)**0.5)/(2*math.pi))/50)
     print(f"dt : {dt}")
     num_of_steps = round((tfin/dt)+1)
     return num_of_steps, dt
@@ -156,21 +156,21 @@ if __name__ == "__main__":
     times = [0]
     v2_0 = 0.0
     a2_0 = 0.0
-    type1 = 2
+    type1 = 1
     type2 = 2
-    times1 = [0,1.5]
+    times1 = [0]
     times2 = [0]
-    mag1 = 5.0
+    mag1 = 10.0
     mag2 = 0.0 #float(input("Enter force magnitude: "))
-    freq1 = 0.0 #float(input("Enter force frequency: "))
+    freq1 = 82.0 #float(input("Enter force frequency: "))
     freq2 = 0.0
     m1 = 10.0 #float(input("Enter mass: "))
     m2 = 0.0
-    c1 = 89.0 #float(input("Enter damper: "))
+    c1 = 0.0 #float(input("Enter damper: "))
     c2 = 0.0
-    k1 = 20000.0 #float(input("Enter spring: "))
+    k1 = 64000.0 #float(input("Enter spring: "))
     k2 = 0.0
-    tfin = 3.0 #float(input("Enter final time: "))
+    tfin = 10.0 #float(input("Enter final time: "))
 
     num_of_steps,dt = step_size(k1,m1,k2,m2,tfin)
     F1,F2 = forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt)

@@ -7,6 +7,6 @@ Formulation of the solver is done through the system in the image below
 
 # Capabilities:
 
-1) Solutions for two Degree of freedom system
-2) m2 in the image below could be designated as a moving base with element k2 and c2 being the coupling elements
-3) Impulse or harmonic forces can be defined
+1) Solutions for two Degree of freedom system.
+2) m2 in the image above could be defined as a moving base with element k2 and c2 being the coupling elementsç
+3) Impulse or harmonic forces can be defined.

@@ -1,4 +1,4 @@
-# Single-and-Two-DoF-Vibration-Solver
+# Single-and-Two-DoF-Mechanical-Vibration-Solver
 A solver and plotter python script for Single and Two Dof Vibrations
 
 Formulation of the solver is done through the system in the image below

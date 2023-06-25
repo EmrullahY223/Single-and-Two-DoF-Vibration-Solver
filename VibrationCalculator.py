@@ -102,37 +102,19 @@ def Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,Ba
         X2[0] = x2_0
         V2[0] = v2_0
         A2[0] = a2_0
-
-    # i = 0
     
-    # Dof 1
-    if m1 > 0:
-        G1[0] = (F1[0]) - k2*(X1[0]-X2[0]) - c2*(V1[0]-V2[0])
-        X1[1] = X1[0] + dt*V1[0] + ((dt**2)/2)*A1[0]
-        V1[1] = (-2*m1*X1[0] + 2*m1*X1[1] + G1[0]*dt**2 - k1*dt**2*X1[1])/(2*m1*dt + c1*dt**2)
-        A1[1] = (G1[0] - c1*V1[1] - k1*X1[1])/m1
-        
-    # Dof 2
-    if m2 > 0:
-        G2[0] = F2[0] + k2*(X1[0]) + c2*(V1[0])
-        X2[1] = X2[0] + dt*V2[0] + ((dt**2)/2)*A2[0]
-        V2[1] = (-2*m2*X2[0] + 2*m2*X2[1] + G2[0]*dt**2 - k2*dt**2*X2[1])/(2*m2*dt + c2*dt**2)
-        A2[1] = (G2[0] - c2*V2[1] - k2*X2[1])/m2
-    t.append(t[0]+dt)    
     # loop for numerical analysis
-    for i in range(1,num_of_steps):
+    for i in range(0,num_of_steps):
         #print (f"i={i}")
         t.append(t[i]+dt)
         if m1 > 0:
             G1[i] = F1[i] - (k2*(X1[i]-X2[i])) - (c2*(V1[i]-V2[i]))
-            #print(f"force1:{mag1*math.sin(forceFreq1*t[i])}")
-            X1[i+1] = (2*X1[i]) - (X1[i-1]) + ((dt**2)*A1[i])
+            X1[i+1] = X1[i] + dt*V1[i] + ((dt**2)/2)*A1[i]
             V1[i+1] = ((-2*m1*X1[i]) + (2*m1*X1[i+1]) + (G1[i]*dt**2) - (k1*(dt**2)*X1[i+1]))/((2*m1*dt) + (c1*dt**2))
             A1[i+1] = (G1[i] - (c1*V1[i+1]) - (k1*X1[i+1]))/m1
         if m2 > 0:
             G2[i] = F2[i] + (k2*(X1[i])) + (c2*(V1[i]))
-            #print(f"force2:{mag2*math.sin(forceFreq2*t[i])}")
-            X2[i+1] = 2*X2[i] - X2[i-1] + dt**2*A2[i]
+            X2[i+1] = X2[i] + dt*V2[i] + ((dt**2)/2)*A2[i]
             V2[i+1] = (-2*m2*X2[i] + 2*m2*X2[i+1] + G2[i]*dt**2 - k2*dt**2*X2[i+1])/(2*m2*dt + c2*dt**2)
             A2[i+1] = (G2[i] - c2*V2[i+1] - k2*X2[i+1])/m2
         
@@ -144,7 +126,7 @@ if __name__ == "__main__":
     
      
 
-    x1_0 = 0.0 #float(input("Enter initial displacement: "))
+    x1_0 = 2.0 #float(input("Enter initial displacement: "))
     v1_0 = 0.0 #float(input("Enter initial velocity: "))
     a1_0 = 0.0 #float(input("Enter initial acceleration: "))
     x2_0 = 0.0
@@ -160,15 +142,15 @@ if __name__ == "__main__":
     type2 = 2
     times1 = [0]
     times2 = [0]
-    mag1 = 10.0
+    mag1 = 0.0
     mag2 = 0.0 #float(input("Enter force magnitude: "))
-    freq1 = 82.0 #float(input("Enter force frequency: "))
+    freq1 = 0.0 #float(input("Enter force frequency: "))
     freq2 = 0.0
-    m1 = 10.0 #float(input("Enter mass: "))
+    m1 = 0.5 #float(input("Enter mass: "))
     m2 = 0.0
-    c1 = 0.0 #float(input("Enter damper: "))
+    c1 = 0.1 #float(input("Enter damper: "))
     c2 = 0.0
-    k1 = 64000.0 #float(input("Enter spring: "))
+    k1 = 3.0 #float(input("Enter spring: "))
     k2 = 0.0
     tfin = 10.0 #float(input("Enter final time: "))
 

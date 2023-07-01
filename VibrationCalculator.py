@@ -158,21 +158,3 @@ if __name__ == "__main__":
     Base,BaseSpeed = MovingBase(baseMag,baseFreq,dt,num_of_steps,m2,movetype,stepSlope,stepEnd,times)
     X1,X2,V1,V2,A1,A2,G1,G2,t = Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,dt,Base,BaseSpeed)
     #print(V1)
-    
-    # Effect of time step
-    if m1 == 10 and k1 == 64000 and type1 == 1 and (freq1 == 40 or freq1 == 80 or freq1 ==82) and mag1 == 10:
-        exactSolution = list()
-        for i in t:
-            solution = (mag1/(m1*((80**2)-(freq1**2))))*(math.sin(freq1*i)-(freq1/80*math.sin(80*i)))
-            exactSolution.append(solution)
-        plt.plot(t,exactSolution,ls = ':',color = 'r',label = 'Exact Solution', linewidth = 4)
-        plt.title("validation case 2")
-    if m2 <=0 :
-        print("no second Dof/moving Base")
-
-    plt.plot(t,X1,label = 'Numerical Solution')
-    plt.xlabel("time(sec)")
-    plt.ylabel("Displacement(m)")
-    plt.legend()
-    plt.show()
-

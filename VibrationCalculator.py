@@ -39,6 +39,7 @@ def MovingBase(baseMag,baseFreq,dt,num_of_steps,m2,movetype,stepSlope,stepEnd,ti
             print(f"move type worng for base")
     else:
         print(f"can't have base mass with moving base!!")
+        return Base,BaseSpeed
 
     return Base,BaseSpeed
 

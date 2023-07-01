@@ -3,9 +3,8 @@ Project 3 kod dosyasıdır
 numerik yöntemler ile titreşim analizi için yazılmıştır.
 """
 import math
-def step_size(k1,m1,k2,m2,tfin):
+def step_size(k1,m1,k2,m2,tfin,num_of_division):
 
-    num_of_division = 5
     natural_frequancy1 = 0
     natural_frequancy2 = 0
     nat_freq = 0
@@ -75,7 +74,7 @@ def forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt):
         print("error in excitation type2")
     return F1,F2
     
-def Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,Base,BaseSpeed):
+def Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,dt,Base,BaseSpeed):
     # defining the variables
     t  = [0]
     X1 = [0] *(num_of_steps+1)
@@ -151,28 +150,21 @@ if __name__ == "__main__":
     k1 = 64000.0 #float(input("Enter spring: "))
     k2 = 0.0
     tfin = 3.0 #float(input("Enter final time: "))
+    num_of_division = 5
 
-    num_of_steps,dt = step_size(k1,m1,k2,m2,tfin)
+    num_of_steps,dt = step_size(k1,m1,k2,m2,tfin,num_of_division)
     F1,F2 = forceCalc(type1,type2,mag1,mag2,freq1,freq2,times1,times2,num_of_steps,dt)
     Base,BaseSpeed = MovingBase(baseMag,baseFreq,dt,num_of_steps,m2,movetype,stepSlope,stepEnd,times)
-    X1,X2,V1,V2,A1,A2,G1,G2,t = Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,Base,BaseSpeed)
+    X1,X2,V1,V2,A1,A2,G1,G2,t = Solver(x1_0,v1_0,a1_0,x2_0,v2_0,a2_0,F1,F2,m1,m2,c1,c2,k1,k2,num_of_steps,dt,Base,BaseSpeed)
     #print(V1)
-
-    # example Problem 1
-    if m1 == 570.69 and c1 == 1819.245 and k1 == 1.2e7 and mag1 == 220.0 and type1 == 2:
-        exactSolution = list()
-        for i in t:
-            solution = 2.69e-3*(math.e**(-1.59*i))*math.sin(144.9*i)
-            exactSolution.append(solution)
-        plt.plot(t,exactSolution,ls = ':',color = 'r',label = 'Exact Solution')
-        plt.title("validation case 1")
-    # example Problem 2
-    elif m1 == 10 and k1 == 64000 and type1 == 1 and (freq1 == 40 or freq1 == 80 or freq1 ==82) and mag1 == 10:
+    
+    # Effect of time step
+    if m1 == 10 and k1 == 64000 and type1 == 1 and (freq1 == 40 or freq1 == 80 or freq1 ==82) and mag1 == 10:
         exactSolution = list()
         for i in t:
             solution = (mag1/(m1*((80**2)-(freq1**2))))*(math.sin(freq1*i)-(freq1/80*math.sin(80*i)))
             exactSolution.append(solution)
-        plt.plot(t,exactSolution,ls = ':',color = 'r',label = 'Exact Solution')
+        plt.plot(t,exactSolution,ls = ':',color = 'r',label = 'Exact Solution', linewidth = 4)
         plt.title("validation case 2")
     if m2 <=0 :
         print("no second Dof/moving Base")

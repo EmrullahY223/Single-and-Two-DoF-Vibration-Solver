@@ -9,6 +9,8 @@ import numpy as np
 from numpy.linalg import inv
 from matplotlib import pyplot as plt
 
+# forcing function for a applied oscilatory force until time reaches 15
+
 def F(t):
     F = np.array([0.0,0.0])
 
